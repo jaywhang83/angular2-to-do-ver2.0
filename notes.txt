@@ -64,7 +64,9 @@ One way to think about this is that a Task should be able to mark itself as "don
 
 Then we could have a method on our Task class which allows the Task object to mark itself as "done" by setting its boolean property to true, or mark it "not done" by setting it to false. We were already thinking about having a Task model, but since we will have to both view and interact with representations of these Tasks, it also makes sense to have a Task component. The Task component can be a child fo the TaskListComponent, and its job can be to display a single Task. This way it can display the state of "done" or "not done" with a checkbox in the View like Cameron asked. We can add some logic to the Controller part of the component, the class definiton, which allows the user to change a task to "done" or "not done" by clicking the checkbox.
 
+The [ ] square brackets indicate a component input. 
 
+The ( ) parenthesis define an output coming from their component, such as (click)="taskClicked(currentTask).
 
 
 
