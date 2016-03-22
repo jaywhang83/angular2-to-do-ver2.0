@@ -1,0 +1,26 @@
+Components are the basic building blocks of an Angular2 app.
+
+A component has a selector property.
+
+The component's selector is the DOM element that the component is attached to, generally a new HTML tag.
+
+A component must also include a template.
+
+A template is made up of the HTML that we want to display inside of our selector.
+
+For example, let's pretend we want to program a component to handle logging into our website. We might create a component with a selector called <login-block>. For a template, we would want to present a form for entering a username and password. This component would also be in charge of processing the form when it is submitted. This creates more modularity in our code. Then whenever we use our custom HTML tag <login-block></login-block>, on any page in our app, it will be treated as a marker and replaced with our complete login form.
+
+
+A component has two halves:
+1. an annotation
+2. a class definition
+
+typings.json
+This file holds typescript type definition files that teach the compiler about new features and syntax from particular libraries. Again, don't worry - this is quite a bit of setup, but it will help things run smoothly as our project expands and allow us to mostly focus on writing components rather than having to step back from the Angular flow to adjust things in our folder structure or download new dependencies.
+
+here are the steps to remember when we go to start a new project with this structure, or clone an existing one:
+
+1. We use npm install and bower install to install our dependencies.
+2. Then we install any global packages that we need, which aren't tracked by our manifest files, such as gulp, bower, sass, typescript, and our text editor's typescript packages.
+3. Then we can build our whole project with gulp build.
+4. And run it with: gulp serve.
