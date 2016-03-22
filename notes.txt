@@ -10,7 +10,6 @@ A template is made up of the HTML that we want to display inside of our selector
 
 For example, let's pretend we want to program a component to handle logging into our website. We might create a component with a selector called <login-block>. For a template, we would want to present a form for entering a username and password. This component would also be in charge of processing the form when it is submitted. This creates more modularity in our code. Then whenever we use our custom HTML tag <login-block></login-block>, on any page in our app, it will be treated as a marker and replaced with our complete login form.
 
-
 A component has two halves:
 1. an annotation
 2. a class definition
@@ -24,3 +23,54 @@ here are the steps to remember when we go to start a new project with this struc
 2. Then we install any global packages that we need, which aren't tracked by our manifest files, such as gulp, bower, sass, typescript, and our text editor's typescript packages.
 3. Then we can build our whole project with gulp build.
 4. And run it with: gulp serve.
+
+An Angular2 app is made up of a tree of components. The tree trunk starts with a top level application component which renders children components, which themselves are also parents of other components. This allows us to divide up our code into small, more elegant pieces that branch off of eachother.
+
+Each component should ideally have one focused job - displaying items, or creatgin them, or modifying them in some way, etc. This also makes it easier to debug our code. It's easier to track down a problem when you know exactly which file handles what piece of your application - frontend and backend.
+
+Model-View-Controller (MVC)
+The component system takes advantage of the model-view-controller pattern. Essentially, our components each function as a View and a Controller at the same time. The View is the frontend - the HTML in our template. This is what the user interacts with, and it is a window to whatever data our app is displaying. This data is represented by Models. In our case, our Model is going to be a Task. We're making a To-Do List - it's all going to be about creating, editing, and sorting Tasks, so it makes sense to use a Task Model.
+
+The Controller is in charge of making the View functional. It is responsible for connecting the View to any Models that it needs. For example, if we have a View for displaying our tasks, the Controller is what gives the View access to an array of Task objects. If we have a View where the user can enter data into a form and submit it to create a new Task, the controller is responsible for pulling that user input from the View, and using it to create a new instance of our Task model.
+
+ROOT COMPONENT
+So, we have decided that we will have a Task Model, that's step one. Next, what components will we want? Well, that depends on the exact goals of our app. Cameron has sent us some user stories, let's use them to figure out how to divide up the app functionality.
+
+	- As a user, I want to be able to see all my tasks.
+
+First, we will want a component to hold all the Task objects and load all the child components. This will be our root component, conventionally named AppComponent, and since it will be the parent of all the other components, it will be able to pass them whatever data they need. Then, we'll want a separate component whose sole responsibility is displaying a lsit of Tasks.
+
+Wait - why not just do that in the root component? Because it makes that component more complex that is has to be. Remember that the name of the game in Angular is to have lots of small, simple pieces, rather than trying to be efficient by doing more with less. Especially as we plan, we should keep things as simple as possible. Let's let the AppComponent be responsible for holding all of our data (our models), and for loading child components. It can load a TaskListComponent, and its sole duty will be to display whatever tasks we pass to it.
+
+TASK Components
+
+	- As a user, I want a task to have a description, and I need to know it it's done or not.
+
+Great, our Task can be an object with two properties - a string for the description, and a boolean for whether or not it is done.
+
+	- As a user, I want to be able to edit existing task descriptions and create new tasks.
+
+Sounds like a job for two or more components. Let's call them EditTaskComponent and NewTaskComponent. They sound similar, they will each be manipulating tasks wiht forms, but let's again avoid the pitfall of trying to fit a square peg into a round hole.
+
+	- As a user, I want to be able to view which tasks are done, and which tasks are not done.
+
+Now, this is one time where we might not need a new component. The user just wants to modify which takss are being viewed based on a set of criteria - either the task is or is not done. To filter a dataset in Angular using a set of requirements we use what is referred to as a pipe. We'll learn about how to implement these later, but at the end of the day the user still just wants to view their tasks, and we have a TaskListComponent for that. They want some control over which tasks are displayed in that list, but we can build that functionality straight into the TaskListComponent. Its job is displaying a list of things, so it makes sense to give it some control over which of those things to show and how to sort them. This is not a case of a square peg and a round hole because filtering fits right in with the functionality of displaying a list.
+
+But this is an example of a gray area - there's more than one way to structure this. If we had a very complex search form where a user could view tasks based on when they were created, who they were assigned to, high/low priority, the task description… that might make our TaskListComponent more bloated than it needs to be. It might be simpler to start with a separate component called TaskFilterComponent which gets filter options from the user and then passes the list of filtered tasks to the TaskListComponent to display. You get to make that call as a developer. For our purposes, our user's goal is to just view done tasks, and not done tasks. So we will stick with our other credo and keep things simple. We can just add a menu to our TaskListComponent which lets us select "Show Done", "Show Not Done" and "Show All".
+
+	- As a user, I want tasks to start out set to "not done". But I want to be able to click a checkbox to mark them as "done". I would also like the ability to uncheck a box to mark the tasks as "not done", in case I realize I messed one of them up and I have to do it over.
+
+One way to think about this is that a Task should be able to mark itself as "done" or "not done". We decided to give it a boolean property to represent this state and we can initialize it with the value false to represent the state of "not done"-ness when the task is created.
+
+Then we could have a method on our Task class which allows the Task object to mark itself as "done" by setting its boolean property to true, or mark it "not done" by setting it to false. We were already thinking about having a Task model, but since we will have to both view and interact with representations of these Tasks, it also makes sense to have a Task component. The Task component can be a child fo the TaskListComponent, and its job can be to display a single Task. This way it can display the state of "done" or "not done" with a checkbox in the View like Cameron asked. We can add some logic to the Controller part of the component, the class definiton, which allows the user to change a task to "done" or "not done" by clicking the checkbox.
+
+
+
+
+
+
+
+
+
+
+
