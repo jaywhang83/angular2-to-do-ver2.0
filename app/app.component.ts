@@ -9,14 +9,18 @@ import { Component } from 'angular2/core';
 
 //The *ngFor directive will duplicate the HTML element it is bound to once for each element in the specified array - in our case tasks. If there are any HTML elements nested inside the element with the *ngFor attribute, then the entire block is copied.
 
+
+// (click)="taskWasSelected(task)" is an output binding
 @Component({
 	selector: 'my-app',
 	template: `
 		<div class="container">
 			<h1>To-Do List</h1>
-			<h3 *ngFor="#task of tasks">{{ task.description }}</h3>
+			<h3 *ngFor="#task of tasks" (click)="taskWasSelected(task)">
+				{{ task.description }}
+			</h3>
 		<div>
-		`
+	`
 })
 
 // class
@@ -31,6 +35,10 @@ export class AppComponent { //Controller class definition
 			new Task("Rewatch all the Lord of the Rings movies.", 2),
 			new Task("Do the laundry.", 3)
 		];
+	}
+
+	taskWasSelected(clickedTask: Task): void {
+		console.log(clickedTask);
 	}
 }
 
