@@ -6,14 +6,14 @@ import { NewTaskComponent } from './new-task.component';
 import { DonePipe } from './done.pipe';
 import { PriorityPipe } from './priority.pipe';
 import { CategoryPipe } from './category.pipe';
-
+import { NewCategoryComponent } from './new-category.component';
 
 @Component({
 	selector: 'task-list',
 	inputs: ['taskList', 'categoryList'],
 	outputs: ['onTaskSelect'],
 	pipes: [DonePipe, PriorityPipe, CategoryPipe],
-	directives: [TaskComponent, EditTaskDetailsComponent, NewTaskComponent], // these are all children
+	directives: [TaskComponent, EditTaskDetailsComponent, NewTaskComponent, NewCategoryComponent], // these are all children
 	//templateUrl: 'app/task-list.component.html' // If we use templateUrl, we just have to remember that the path is relative to the top level of your project directory because this is where we start our server. So, it's important to include the app/ at the beginning of the templateUrl path, otherwise it won't be located.
 	template:
 	`
@@ -41,7 +41,9 @@ import { CategoryPipe } from './category.pipe';
 	<edit-task-details *ngIf="selectedTask" [task]="selectedTask">
 	</edit-task-details>
 	<new-task [childCategoryList]='categoryList' (onSubmitNewTask)="createTask($event)"></new-task>
+	<new-category (onSubmitNewCategory)="createCategory($event)"></new-category>
 	`
+
 })
 
 export class TaskListComponent {
@@ -66,6 +68,11 @@ export class TaskListComponent {
 		this.taskList.push(
 			new Task(task["description"], task["priority"], task["category"], this.taskList.length)
 		);
+		console.log(this.taskList);
+	}
+
+	createCategory(category: String): void {
+		this.categoryList.push(category);
 	}
 
 	onChange(filterOption) {

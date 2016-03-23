@@ -20,7 +20,7 @@ import {Task} from './task.model';
 				<option *ngFor="#category of childCategoryList" value="{{category}}">show {{category}}</option>
 			</select>
 
-			<button (click)="addTask(newDescription, priority, category)" class="btn-success btn-lg add-button">Add</button>
+			<button (click)="addTask(newDescription, priority, categories)" class="btn-success btn-lg add-button">Add</button>
 		</div>
 	`
 })
