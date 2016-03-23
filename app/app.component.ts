@@ -20,10 +20,10 @@ export class AppComponent { //Controller class definition
 	public tasks: Task[];
 	constructor(){
 		this.tasks = [
-			new Task("Create To-Do List app.", "High", 0),
-			new Task("Learn Kung Fu.", "High", 1),
-			new Task("Rewatch all the Lord of the Rings movies.", "High", 2),
-			new Task("Do the laundry.", "High", 3)
+			new Task("Create To-Do List app.", "low", 0),
+			new Task("Learn Kung Fu.", "medium", 1),
+			new Task("Rewatch all the Lord of the Rings movies.", "high", 2),
+			new Task("Do the laundry.", "high", 3)
 		];
 	}
 
