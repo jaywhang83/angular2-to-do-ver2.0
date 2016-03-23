@@ -5,15 +5,14 @@ import { EditTaskDetailsComponent } from './edit-task-details.component';
 import { NewTaskComponent } from './new-task.component';
 import { DonePipe } from './done.pipe';
 import { PriorityPipe } from './priority.pipe';
-
-
+import { CategoryPipe } from './category.pipe';
 
 
 @Component({
 	selector: 'task-list',
-	inputs: ['taskList'],
+	inputs: ['taskList','categoryList'],
 	outputs: ['onTaskSelect'],
-	pipes: [DonePipe, PriorityPipe],
+	pipes: [DonePipe, PriorityPipe, CategoryPipe],
 	directives: [TaskComponent, EditTaskDetailsComponent, NewTaskComponent], // these are all children
 	//templateUrl: 'app/task-list.component.html' // If we use templateUrl, we just have to remember that the path is relative to the top level of your project directory because this is where we start our server. So, it's important to include the app/ at the beginning of the templateUrl path, otherwise it won't be located.
 	template:
@@ -30,7 +29,13 @@ import { PriorityPipe } from './priority.pipe';
 		<option value="low">Show Low</option>
 	</select>
 
-	<task-display *ngFor="#currentTask of taskList | done: filterDone | priority: filterPriority "
+	<select (change)="onChange3($event.target.value)" class="filter">
+		<option value="work">Show Work</option>
+		<option value="home">Show Home</option>
+		<option value="school">Show School</option>
+	</select>
+
+	<task-display *ngFor="#currentTask of taskList | done: filterDone | priority: filterPriority | category: filterCategory"
 		(click)="taskClicked(currentTask)"
 		[class.selected]="currentTask == selectedTask"
 		[task]="currentTask">
@@ -47,6 +52,7 @@ export class TaskListComponent {
 	public selectedTask: Task;
 	public filterDone: string = "notDone"; // First, let's create a property in our component controller class to store the value from this menu. We'll set it to a default value of "notDone", since tasks that are not done yet are the first priority for Cameron to see.
 	public filterPriority: string = "high";
+	public filterCategory: string = "work";
 	constructor() {
 		this.onTaskSelect = new EventEmitter();
 	}
@@ -59,7 +65,7 @@ export class TaskListComponent {
 
 	createTask(task: Object): void {
 		this.taskList.push(
-			new Task(task.description, task.priority, this.taskList.length)
+			new Task(task.description, task.priority, task.category, this.taskList.length)
 		);
 	}
 
@@ -72,4 +78,10 @@ export class TaskListComponent {
 		this.filterPriority = filterOption;
 		console.log(this.filterPriority);
 	}
+
+	onChange3(filterOption) {
+		this.filterCategory = filterOption;
+		console.log(this.filterCategory);
+	}
+
 }

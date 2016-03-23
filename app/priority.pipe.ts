@@ -11,8 +11,7 @@ export class PriorityPipe implements PipeTransform {
 	transform(input: Task[], args) {
 
 		var desiredPriorityState = args[0];
-    console.log("this is for priority pipe", desiredPriorityState);
-
+    
 		if(desiredPriorityState === "high") {
 			return input.filter((task) => {
 				return (task.priority === "high");
