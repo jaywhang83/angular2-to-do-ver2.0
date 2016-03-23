@@ -38,7 +38,7 @@ export class TaskListComponent {
 	public onTaskSelect: EventEmitter<Task>;
 	public selectedTask: Task;
 	public filterDone: string = "notDone"; // First, let's create a property in our component controller class to store the value from this menu. We'll set it to a default value of "notDone", since tasks that are not done yet are the first priority for Cameron to see.
-	
+
 	constructor() {
 		this.onTaskSelect = new EventEmitter();
 	}
@@ -49,9 +49,9 @@ export class TaskListComponent {
 		this.onTaskSelect.emit(clickedTask);
 	}
 
-	createTask(description: string): void {
+	createTask(task: Object): void {
 		this.taskList.push(
-			new Task(description, this.taskList.length)
+			new Task(task.description, task.priority, this.taskList.length)
 		);
 	}
 
