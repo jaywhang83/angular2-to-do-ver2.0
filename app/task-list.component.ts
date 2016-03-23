@@ -33,7 +33,7 @@ import { NewCategoryComponent } from './new-category.component';
 		<option *ngFor="#category of categoryList" value="{{category}}">show {{category}}</option>
 	</select>
 
-	<task-display *ngFor="#currentTask of taskList | done: filterDone | priority: filterPriority | category: filterCategory"
+	<task-display *ngFor="#currentTask of taskList | done: filterDone | priority: filterPriority | category: [filterCategory, categoryList]"
 		(click)="taskClicked(currentTask)"
 		[class.selected]="currentTask == selectedTask"
 		[task]="currentTask">
