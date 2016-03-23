@@ -12,15 +12,19 @@ export class CategoryPipe implements PipeTransform {
 
 		var desiredCategoryState = args[0];
 
-		if(desiredCategoryState === "work") {
-			return input.filter((task) => {
-				return (task.category === "work");
-			});
-		} else if (desiredCategoryState === "home") {
+		if(desiredCategoryState === "home") {
 			return input.filter((task) => {
 				return (task.category === "home");
 			});
+		} else if (desiredCategoryState === "work") {
+			return input.filter((task) => {
+				return (task.category === "work");
+			});
 
-	}
+    } else if (desiredCategoryState === "school") {
+ 			return input.filter((task) => {
+ 				return (task.category === "school");
+ 			});
+   }
 }
 }

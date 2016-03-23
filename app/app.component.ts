@@ -10,6 +10,7 @@ import { Task } from './task.model';
 			<h1>To-Do List</h1>
 			<task-list
 				[taskList]="tasks"
+				[categoryList]="categories"
 				(onTaskSelect)="taskWasSelected($event)">
 			</task-list>
 		<div>
@@ -20,12 +21,15 @@ export class AppComponent { //Controller class definition
 	public tasks: Task[];
 	public categories: String[];
 	constructor(){
+		this.categories = ["home", "work", "school"];
+
 		this.tasks = [
-			new Task("Create To-Do List app.", "low", "home", 0),
+			new Task("Create To-Do List app.", "low", "school", 0),
 			new Task("Learn Kung Fu.", "medium", "home", 1),
 			new Task("Rewatch all the Lord of the Rings movies.", "high", "home", 2),
 			new Task("Do the laundry.", "high", "work", 3)
 		];
+
 
 	}
 

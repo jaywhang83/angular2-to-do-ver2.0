@@ -3,7 +3,7 @@ import {Task} from './task.model';
 
 @Component ({
 	selector: 'new-task',
-	inputs: ['categoryList'],
+	inputs: ['childCategoryList'],
 	outputs: ['onSubmitNewTask'],
 	template:`
 		<div class="task-form">
@@ -16,10 +16,8 @@ import {Task} from './task.model';
 			  <option value="low">Low</option>
 			</select>
 
-			<select #category>
-				<option value="work">Show Work</option>
-				<option value="home">Show Home</option>
-				<option value="school">Show School</option>
+			<select #categories>
+				<option *ngFor="#category of childCategoryList" value="{{category}}">show {{category}}</option>
 			</select>
 
 			<button (click)="addTask(newDescription, priority, category)" class="btn-success btn-lg add-button">Add</button>
@@ -29,13 +27,15 @@ import {Task} from './task.model';
 
 export class NewTaskComponent{
 	public onSubmitNewTask: EventEmitter<Object>;
+	public childCategoryList: String[];
 	constructor(){
 		this.onSubmitNewTask = new EventEmitter();
 	}
 
+
+
 	addTask(userDescription: HTMLInputElement, userPriority: HTMLSelectElement, userCategory: HTMLSelectElement){
-		this.onSubmitNewTask.emit({description: userDescription.value, priority: userPriority.value, category: userCategory.value});
+		this.onSubmitNewTask.emit({"description": userDescription.value, "priority": userPriority.value, "category": userCategory.value});
 		userDescription.value = "";
-		console.log("test", this.categoryList);
 	}
 }

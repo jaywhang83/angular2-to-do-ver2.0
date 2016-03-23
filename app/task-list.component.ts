@@ -10,7 +10,7 @@ import { CategoryPipe } from './category.pipe';
 
 @Component({
 	selector: 'task-list',
-	inputs: ['taskList','categoryList'],
+	inputs: ['taskList', 'categoryList'],
 	outputs: ['onTaskSelect'],
 	pipes: [DonePipe, PriorityPipe, CategoryPipe],
 	directives: [TaskComponent, EditTaskDetailsComponent, NewTaskComponent], // these are all children
@@ -30,9 +30,7 @@ import { CategoryPipe } from './category.pipe';
 	</select>
 
 	<select (change)="onChange3($event.target.value)" class="filter">
-		<option value="work">Show Work</option>
-		<option value="home">Show Home</option>
-		<option value="school">Show School</option>
+		<option *ngFor="#category of categoryList" value="{{category}}">show {{category}}</option>
 	</select>
 
 	<task-display *ngFor="#currentTask of taskList | done: filterDone | priority: filterPriority | category: filterCategory"
@@ -42,17 +40,18 @@ import { CategoryPipe } from './category.pipe';
 	</task-display>
 	<edit-task-details *ngIf="selectedTask" [task]="selectedTask">
 	</edit-task-details>
-	<new-task (onSubmitNewTask)="createTask($event)"></new-task>
+	<new-task [childCategoryList]='categoryList' (onSubmitNewTask)="createTask($event)"></new-task>
 	`
 })
 
 export class TaskListComponent {
 	public taskList: Task[];
+	public categoryList: String[];
 	public onTaskSelect: EventEmitter<Task>;
 	public selectedTask: Task;
 	public filterDone: string = "notDone"; // First, let's create a property in our component controller class to store the value from this menu. We'll set it to a default value of "notDone", since tasks that are not done yet are the first priority for Cameron to see.
 	public filterPriority: string = "high";
-	public filterCategory: string = "work";
+	public filterCategory: string = "home";
 	constructor() {
 		this.onTaskSelect = new EventEmitter();
 	}
@@ -65,7 +64,7 @@ export class TaskListComponent {
 
 	createTask(task: Object): void {
 		this.taskList.push(
-			new Task(task.description, task.priority, task.category, this.taskList.length)
+			new Task(task["description"], task["priority"], task["category"], this.taskList.length)
 		);
 	}
 
